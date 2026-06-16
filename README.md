@@ -1,79 +1,103 @@
-# Backend 1 - User Service
+# BackJs_ET - User Service
 
-Backend en Node.js (JavaScript) para gestión de usuarios con base de datos MySQL.
+Microservicio desarrollado en Node.js para la gestión de usuarios.
 
-## Características
+## Tecnologías
 
-- API REST para gestión de usuarios
-- Registro de usuarios con validación
-- Base de datos MySQL
-- Configuración vía archivo .env
+* Node.js 18
+* Express
+* MySQL
+* Docker
+* Amazon ECS Fargate
+* Amazon ECR
+* GitHub Actions
 
-## Requisitos
+## Funcionalidades
 
-- Node.js 18 o superior
-- MySQL 8.0 o superior
-- npm
+* Registro de usuarios
+* Consulta de usuarios
+* Eliminación de usuarios
+* Persistencia en MySQL
 
 ## Configuración
 
-1. Copiar el archivo de ejemplo:
-```bash
-cp .env.example .env
-```
+Variables de entorno:
 
-2. Editar `.env` con sus credenciales de MySQL:
-```
-DB_HOST=localhost
+```env
+DB_HOST=
 DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=tu_password
+DB_USER=
+DB_PASSWORD=
 DB_NAME=users_db
 PORT=8081
 ```
 
-3. Crear la base de datos en MySQL:
-```sql
-CREATE DATABASE users_db;
-```
+## Docker
 
-## Instalación
+Construcción local:
 
 ```bash
-npm install
+docker build -t backjs-et .
 ```
 
-## Ejecutar
+Ejecución:
 
 ```bash
-npm start
+docker run -p 8081:8081 backjs-et
 ```
-
-Para desarrollo con auto-reload:
-```bash
-npm run dev
-```
-
-El servidor iniciará en el puerto 8081.
 
 ## Endpoints
 
-- `POST /api/users/register` - Registrar nuevo usuario
-- `GET /api/users` - Obtener todos los usuarios
-- `GET /api/users/{id}` - Obtener usuario por ID
-- `GET /api/users/username/{username}` - Obtener usuario por username
-- `DELETE /api/users/{id}` - Eliminar usuario
+### Registrar usuario
 
-## Ejemplo de Uso
-
-Registrar usuario:
-```bash
-curl -X POST http://localhost:8081/api/users/register \
-  -H "Content-Type: application/json" \
-  -d '{"username":"juan","email":"juan@example.com","password":"123456"}'
+```http
+POST /api/users/register
 ```
 
-Obtener usuarios:
-```bash
-curl http://localhost:8081/api/users
+### Obtener usuarios
+
+```http
+GET /api/users
 ```
+
+### Obtener usuario por ID
+
+```http
+GET /api/users/:id
+```
+
+### Eliminar usuario
+
+```http
+DELETE /api/users/:id
+```
+
+## CI/CD
+
+GitHub Actions automatiza:
+
+1. Build Docker.
+2. Login en Amazon ECR.
+3. Publicación de imagen.
+4. Versionamiento mediante tags.
+
+Archivo:
+
+```text
+.github/workflows/deploy.yml
+```
+
+## AWS
+
+Infraestructura utilizada:
+
+* Amazon ECS Fargate
+* Amazon ECR
+* CloudWatch Logs
+* IAM
+
+## Seguridad
+
+* Variables sensibles almacenadas como GitHub Secrets.
+* Puerto expuesto mínimo: 8081.
+* Imagen desplegada mediante contenedores aislados.
