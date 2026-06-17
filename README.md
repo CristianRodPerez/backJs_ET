@@ -80,7 +80,7 @@ GitHub Actions automatiza:
 2. Login en Amazon ECR.
 3. Publicación de imagen.
 4. Versionamiento mediante tags.
-
+aa
 Archivo:
 
 ```text
